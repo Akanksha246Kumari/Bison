@@ -1,0 +1,5 @@
+streamlit
+Flask
+twilio
+openai
+azure-cognitiveservices-speech
