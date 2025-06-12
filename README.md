@@ -88,3 +88,22 @@ sequenceDiagram
     Flask->>Twilio: Play audio
     Twilio->>User: Hear response
 ```
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Twilio
+    participant Flask
+    participant Azure
+    
+    User->>Twilio: Initiate call
+    Twilio->>Flask: POST /voice
+    Flask->>Azure: Speech-to-Text
+    Azure-->>Flask: Transcribed text
+    Flask->>Azure: OpenAI request
+    Azure-->>Flask: AI response
+    Flask->>Azure: Text-to-Speech
+    Azure-->>Flask: Audio file
+    Flask->>Twilio: Play audio
+    Twilio->>User: Hear response
+```
