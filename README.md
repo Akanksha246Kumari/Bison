@@ -38,3 +38,53 @@ cd fieldwise_chatbot
 5.  Upon confirmation, the report is saved to the `maintenance_reports.db` SQLite database.
 
 This setup provides a solid foundation for the project. It can be extended to include more complex features, such as voice input/output, integration with cloud services like Azure, and more detailed reporting.
+
+## 🎤 Voice Integration (Telephony)
+
+### Features
+- **Twilio Voice Call Handling** 
+  - Endpoint: `/voice`
+  - Processes incoming voice calls
+- **Real-time Speech Processing**
+  - Converts speech to text using Azure Speech Services
+  - Generates AI responses with Azure OpenAI
+  - Converts text responses to audio
+- **Conversation Management**
+  - Maintains session state with Flask
+  - Tracks conversation turns
+
+### Setup
+1. **Twilio Configuration**
+   ```bash
+   export TWILIO_ACCOUNT_SID=your_sid
+   export TWILIO_AUTH_TOKEN=your_token
+   ```
+
+2. **Run Flask Server**
+   ```bash
+   python voice_app.py
+   ```
+
+3. **Webhook Configuration**
+   Set Twilio voice webhook to:
+   `https://your-domain.com/voice`
+
+### Flow Diagram
+```mermaid
+sequenceDiagram
+    participant User
+    participant Twilio
+    participant Flask
+    participant Azure
+    
+    User->>Twilio: Initiate call
+    Twilio->>Flask: POST /voice
+    Flask->>Azure: Speech-to-Text
+    Azure-->>Flask: Transcribed text
+    Flask->>Azure: OpenAI request
+    Azure-->>Flask: AI response
+    Flask->>Azure: Text-to-Speech
+    Azure-->>Flask: Audio file
+    Flask->>Twilio: Play audio
+    Twilio->>User: Hear response
+```
